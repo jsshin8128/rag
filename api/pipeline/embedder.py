@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import chromadb
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
@@ -18,7 +19,7 @@ def embed_and_store(
     collection_name: str = "rag_workshop",
 ) -> dict:
     """Embed chunks and store in ChromaDB. Returns store metadata."""
-    # 기존 컬렉션 삭제 후 재생성 → 중복 방지
+    Path(chroma_path).mkdir(parents=True, exist_ok=True)
     client = chromadb.PersistentClient(path=chroma_path)
     try:
         client.delete_collection(collection_name)
